@@ -1,0 +1,78 @@
+#define BLYNK_TEMPLATE_ID "TMPL3KzC2lhkh"
+#define BLYNK_TEMPLATE_NAME "SMART STICK"
+#define BLYNK_AUTH_TOKEN "n7lrH15FOv0NpLrxVggzGoLMepLjuOFe"
+
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid [] = "SVTECHNOLOGIES";
+char pass [] = "Smart.23";
+ 
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#include<SoftwareSerial.h>
+
+ 
+
+
+BLYNK_WRITE(V0)
+{
+  int value1 = param.asInt();
+  if(value1 == 1)
+  {
+    Serial.println("FORWAD");
+    digitalWrite(D5, HIGH);
+      }
+  else
+  {
+     Serial.println("STOP");
+     digitalWrite(D5,LOW);
+     }
+  }
+
+void setup(){
+Blynk.begin(auth, ssid, pass);
+ 
+digitalWrite(D5,HIGH);
+delay(700);
+digitalWrite(D5,LOW);
+delay(700);
+digitalWrite(D5,HIGH);
+delay(700);
+digitalWrite(D5,LOW);
+delay(700);
+
+   
+    
+    pinMode(D5 ,OUTPUT);
+    pinMode(D6 ,INPUT);   
+
+     
+   Serial.begin(9600);
+  
+}
+
+void loop()
+{
+  Blynk.run();
+  int S;
+  S=digitalRead(D6);
+ 
+  Blynk.virtualWrite(V7,S);
+ 
+
+
+   if(S==0)
+{
+  
+  digitalWrite(D5,HIGH);
+ 
+}
+
+else
+{
+  digitalWrite(D5,LOW);
+  
+ }
+ Blynk.run();
+ 
+}
