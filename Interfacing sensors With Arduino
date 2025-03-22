@@ -1,0 +1,116 @@
+void setup() 
+{
+ 
+ pinMode (5,OUTPUT);  //TRIGGER
+ pinMode (6,INPUT);   //ECHO
+
+ pinMode (7,OUTPUT);  //TRIGGER
+ pinMode (8,INPUT);   //ECHO
+
+ pinMode (9,INPUT);   //RAIN SENSOR
+
+ pinMode (10,OUTPUT);  //VIBRATION
+ pinMode (11,OUTPUT);  //BUZZER
+ pinMode (12,OUTPUT);  //VOICE MODULE
+ 
+ Serial.begin(9600);
+ 
+ digitalWrite(11,HIGH);
+ delay(100);
+ digitalWrite(11,LOW);
+ delay(100);
+ digitalWrite(11,HIGH);
+ delay(100);
+ digitalWrite(11,LOW);
+ delay(100);
+ digitalWrite(11,HIGH);
+ delay(100);
+ digitalWrite(11,LOW);
+ delay(100);
+
+ }
+ 
+ 
+void loop() 
+{
+ float time,Distance1,Distance2;
+int S;
+S=digitalRead(9);
+ digitalWrite(5, HIGH);
+delayMicroseconds(10);
+digitalWrite(5,LOW);
+ delayMicroseconds(2);
+ digitalWrite(5, HIGH);
+delayMicroseconds(10);
+digitalWrite(5,LOW);
+ delayMicroseconds(2);
+ time =pulseIn(6,HIGH);
+ Distance1=time*340/20000;
+ Serial.println(Distance1);
+ delay(100);
+
+ 
+ digitalWrite(7, HIGH);
+delayMicroseconds(10);
+digitalWrite(7,LOW);
+ delayMicroseconds(2);
+ digitalWrite(7, HIGH);
+delayMicroseconds(10);
+digitalWrite(7,LOW);
+ delayMicroseconds(2);
+ time =pulseIn(8,HIGH);
+ Distance2=time*340/20000;
+ Serial.println(Distance2);
+ delay(100);
+
+
+if(Distance1<=40  && Distance2<=29  &&  S==1)
+{
+  Serial.println("INFRONT OBJECT DETECTED");
+ digitalWrite(11,HIGH);
+ delay(1800);
+ digitalWrite(11,LOW);
+ delay(1800);
+ digitalWrite(11,HIGH);
+ delay(1800);
+ digitalWrite(11,LOW);
+ delay(1800);
+
+   }
+  else if(Distance2>=30  && Distance1>=42  && S==1)
+{
+  Serial.println("INFRONT MANHOLE DETECTED");
+ digitalWrite(11,HIGH);
+ delay(100);
+ digitalWrite(11,LOW);
+ delay(100);
+ digitalWrite(11,HIGH);
+ delay(100);
+ digitalWrite(11,LOW);
+ delay(100);
+
+    }
+
+   else if(Distance1>=41  && Distance2<=28  &&   S==0)
+{
+  Serial.println("INFRONT WATER DETECTED");
+    digitalWrite(12,LOW);
+       digitalWrite(11,HIGH);
+   digitalWrite(10,HIGH);
+ delay(1000);
+ digitalWrite(12,LOW);
+       digitalWrite(11,HIGH);
+   digitalWrite(10,HIGH);
+   delay(100);
+ 
+
+    }
+   
+else
+{
+    digitalWrite(10, LOW);
+    digitalWrite(11, LOW);
+   digitalWrite(12,HIGH);
+
+   }
+   }
